@@ -1,0 +1,126 @@
+from ursina import *  # 창 프로그램 플러그인 포함 
+from random import *  # 랜덤 프로그램 플러그인 포함
+
+app = Ursina()
+
+window.borderless = False  #창이 움직일 수 있도록 만듬
+window.color = color._20   #창 색깔 
+
+Text.default_font = '/System/Library/Fonts/AppleSDGothicNeo.ttc' #글자 폰트 설정 
+
+mone = 0  #mone을 0값으로 설정
+mone_text = Text(text=str(mone), x=-0.62, y=0.3, scale=2, background=True) 
+bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.2)
+
+def bone_click():    #bone_click이라는 변수 제작 이 변수를 쓰면 mone값을 +1 하게 만듬
+    global mone
+    mone += 1
+
+bone.on_click = bone_click   #bone(버튼)을 클릭하면 bone_click 실행
+
+mtwo = 0  #mtwo을 0값으로 설정
+ranptwo = 0
+mtwo_text = Text(text=str(mtwo), x=-0.33, y=0.3, scale=2, background=True)
+ranptwo_text = Text(text=str(ranptwo), x=-0.31, y=0.37, scale=1.2, background=True)
+Text(text='+', x=-0.33, y= 0.37, scale=1, background=True)
+btwo = Button(text='10 red = orange', color=color.orange, x=-0.3, scale=0.2)
+
+def btwo_click():    #btwo_click이라는 변수 제작 이 변수를 쓰면 mtwo값을 +1 하게 만듬
+    global mtwo
+    global mone
+    if mone >= 10 :
+        mone -= 10
+        mtwo += 1 
+        rantwo = (randrange(1, 6))
+        if rantwo >= 5 :             #20%확률로 mtwo값이 1증가한다(+옆값)
+            global ranptwo
+            mtwo += 1
+            ranptwo += 1
+        
+btwo.on_click = btwo_click   #btwo(두번째 버튼)을 클릭하면 btwo_click 실행
+
+mthr = 0   #mthr을 0값으로 설정
+ranpthr = 0
+mthr_text = Text(text=str(mthr), x=-0.02, y=0.3, scale=2, background=True)
+ranpthr_text = Text(text=str(ranpthr), x=0, y=0.37, scale=1.2, background=True)
+Text(text='+', x=-0.02, y= 0.37, scale=1, background=True)
+bthr = Button(text='10 orange = green', color=color.green, x=0, scale=0.2)
+
+def bthr_click():    #bthr_click이라는 변수 제작 이 변수를 쓰면 mthr값을 +1 하게 만듬
+    global mthr
+    global mtwo
+    if mtwo >= 10 :
+        mtwo -= 10
+        mthr += 1
+        ranthr = (randrange(1, 6))
+        if ranthr >= 5 :            
+            global ranpthr
+            mthr += 1
+            ranpthr += 1
+
+bthr.on_click = bthr_click   
+
+mfour = 0   
+ranpfour = 0
+mfour_text = Text(text=str(mfour), x=0.25, y=0.3, scale=2, background=True)
+ranpfour_text = Text(text=str(ranpfour), x=0.27, y=0.37, scale=1.2, background=True)
+Text(text='+', x=0.25, y= 0.37, scale=1, background=True)
+bfour = Button(text='10 green = blue', color=color.blue, x=0.27, scale=0.2)
+
+def bfour_click():    
+    global mfour
+    global mthr
+    if mthr >= 10 :
+        mthr -= 10
+        mfour += 1
+        ranfour = (randrange(1, 6))
+        if ranfour >= 5 :            
+            global ranpfour
+            mfour += 1
+            ranpfour += 1
+
+bfour.on_click = bfour_click 
+
+mfive = 0   
+ranpfive = 0
+mfive_text = Text(text=str(mfive), x=0.55, y=0.3, scale=2, background=True)
+ranpfive_text = Text(text=str(ranpfive), x=0.57, y=0.37, scale=1.2, background=True)
+Text(text='+', x=0.55, y= 0.37, scale=1, background=True)
+bfive = Button(text='10 blue = pink', color=color.pink, x=0.57, scale=0.2)
+
+def bfive_click():    
+    global mfive
+    global mfour
+    if mfour >= 10 :
+        mfour -= 10
+        mfive += 1
+        ranfive = (randrange(1, 6))
+        if ranfive >= 5 :            
+            global ranpfive
+            mfive += 1
+            ranpfive += 1
+
+bfive.on_click = bfive_click
+
+def update():                      #mone,mtwo,mthr의 값을 실시간으로 텍스트로 설정
+    global mone
+    mone_text.text = str(mone)
+    global mtwo
+    mtwo_text.text = str(mtwo)
+    global ranptwo
+    ranptwo_text.text = str(ranptwo)
+    global mthr
+    mthr_text.text = str(mthr)
+    global ranpthr
+    ranpthr_text.text = str(ranpthr)
+    global mfour
+    mfour_text.text = str(mfour)
+    global ranpfour
+    ranpfour_text.text = str(ranpfour)
+    global mfive
+    mfive_text.text = str(mfive)
+    global ranpfive
+    ranpfive_text.text = str(ranpfive)
+
+
+app.run()
