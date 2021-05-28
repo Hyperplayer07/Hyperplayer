@@ -8,13 +8,19 @@ window.color = color._20   #창 색깔
 
 Text.default_font = '/System/Library/Fonts/AppleSDGothicNeo.ttc' #글자 폰트 설정 
 
+uone = 1
+utwo = 1
+uthr = 1
+ufour = 1
+ufive = 1
+
 mone = 0  #mone을 0값으로 설정
 mone_text = Text(text=str(mone), x=-0.62, y=0.3, scale=2, background=True) 
 bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.2)
 
 def bone_click():    #bone_click이라는 변수 제작 이 변수를 쓰면 mone값을 +1 하게 만듬
     global mone
-    mone += 1
+    mone += str(uone)
 
 bone.on_click = bone_click   #bone(버튼)을 클릭하면 bone_click 실행
 
@@ -23,13 +29,13 @@ ranptwo = 0
 mtwo_text = Text(text=str(mtwo), x=-0.33, y=0.3, scale=2, background=True)
 ranptwo_text = Text(text=str(ranptwo), x=-0.31, y=0.37, scale=1.2, background=True)
 Text(text='+', x=-0.33, y= 0.37, scale=1, background=True)
-btwo = Button(text='10 red = orange', color=color.orange, x=-0.3, scale=0.2)
+btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.2)
 
 def btwo_click():    #btwo_click이라는 변수 제작 이 변수를 쓰면 mtwo값을 +1 하게 만듬
     global mtwo
     global mone
-    if mone >= 10 :
-        mone -= 10
+    if mone >= 9 :
+        mone -= 9
         mtwo += 1 
         rantwo = (randrange(1, 6))
         if rantwo >= 5 :             #20%확률로 mtwo값이 1증가한다(+옆값)
@@ -44,13 +50,13 @@ ranpthr = 0
 mthr_text = Text(text=str(mthr), x=-0.02, y=0.3, scale=2, background=True)
 ranpthr_text = Text(text=str(ranpthr), x=0, y=0.37, scale=1.2, background=True)
 Text(text='+', x=-0.02, y= 0.37, scale=1, background=True)
-bthr = Button(text='10 orange = green', color=color.green, x=0, scale=0.2)
+bthr = Button(text='8 orange = green', color=color.green, x=0, scale=0.2)
 
 def bthr_click():    #bthr_click이라는 변수 제작 이 변수를 쓰면 mthr값을 +1 하게 만듬
     global mthr
     global mtwo
-    if mtwo >= 10 :
-        mtwo -= 10
+    if mtwo >= 8 :
+        mtwo -= 8
         mthr += 1
         ranthr = (randrange(1, 6))
         if ranthr >= 5 :            
@@ -65,13 +71,13 @@ ranpfour = 0
 mfour_text = Text(text=str(mfour), x=0.25, y=0.3, scale=2, background=True)
 ranpfour_text = Text(text=str(ranpfour), x=0.27, y=0.37, scale=1.2, background=True)
 Text(text='+', x=0.25, y= 0.37, scale=1, background=True)
-bfour = Button(text='10 green = blue', color=color.blue, x=0.27, scale=0.2)
+bfour = Button(text='7 green = blue', color=color.blue, x=0.27, scale=0.2)
 
 def bfour_click():    
     global mfour
     global mthr
-    if mthr >= 10 :
-        mthr -= 10
+    if mthr >= 7 :
+        mthr -= 7
         mfour += 1
         ranfour = (randrange(1, 6))
         if ranfour >= 5 :            
@@ -102,7 +108,22 @@ def bfive_click():
 
 bfive.on_click = bfive_click
 
-def update():                      #mone,mtwo,mthr의 값을 실시간으로 텍스트로 설정
+upone = Button(text='red upgade = 1 green', color=color.red, x=-0.6, y=-0.15, scale=0.05)
+uptwo = Button(text='orange upgade = 1 blue', color=color.orange, x=-0.3, y=-0.15, scale=0.05)
+upthr = Button(text='green upgade = 1 pink', color=color.green, y=-0.15, scale=0.05)
+upfour = Button(text='blue upgade = 5 pink', color=color.blue, x = 0.27, y=-0.15, scale=0.05)
+upfive = Button(text='pink upgade = 20 pink', color=color.pink, x = 0.57, y=-0.15, scale=0.05)
+
+def upone_click():    
+    global upone
+    global mthr
+    if mthr >= 1 :
+        upone += 1
+        mthr -= 1
+ 
+upone.on_click = upone_click
+
+def update():                      
     global mone
     mone_text.text = str(mone)
     global mtwo
