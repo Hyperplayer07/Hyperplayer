@@ -1,5 +1,7 @@
 from ursina import *  # 창 프로그램 플러그인 포함 
-from random import *  # 랜덤 프로그램 플러그인 포함
+from random import *
+
+from ursina.mesh_importer import ursina_mesh_to_obj  # 랜덤 프로그램 플러그인 포함
 
 app = Ursina()
 
@@ -8,11 +10,11 @@ window.color = color._20   #창 색깔
 
 Text.default_font = '/System/Library/Fonts/AppleSDGothicNeo.ttc' #글자 폰트 설정 
 
-uone = 1
-utwo = 1
-uthr = 1
-ufour = 1
-ufive = 1
+ua = 1
+ub = 1
+uc = 1
+ud = 1
+ue = 1
 
 mone = 0  #mone을 0값으로 설정
 mone_text = Text(text=str(mone), x=-0.62, y=0.3, scale=2, background=True) 
@@ -20,7 +22,8 @@ bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.2)
 
 def bone_click():    #bone_click이라는 변수 제작 이 변수를 쓰면 mone값을 +1 하게 만듬
     global mone
-    mone += str(uone)
+    global ua
+    mone += ua
 
 bone.on_click = bone_click   #bone(버튼)을 클릭하면 bone_click 실행
 
@@ -34,9 +37,10 @@ btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.2)
 def btwo_click():    #btwo_click이라는 변수 제작 이 변수를 쓰면 mtwo값을 +1 하게 만듬
     global mtwo
     global mone
+    global ub
     if mone >= 9 :
         mone -= 9
-        mtwo += 1 
+        mtwo += ub
         rantwo = (randrange(1, 6))
         if rantwo >= 5 :             #20%확률로 mtwo값이 1증가한다(+옆값)
             global ranptwo
@@ -115,13 +119,29 @@ upfour = Button(text='blue upgade = 5 pink', color=color.blue, x = 0.27, y=-0.15
 upfive = Button(text='pink upgade = 20 pink', color=color.pink, x = 0.57, y=-0.15, scale=0.05)
 
 def upone_click():    
-    global upone
+    global ua
     global mthr
     if mthr >= 1 :
-        upone += 1
-        mthr -= 1
- 
+        ua += 1
+        mthr -= 1 
+
+def uptwo_click():
+    global ub
+    global mfour 
+    if mfour >= 1 :
+        ub += 1
+        mfour -= 1
+
+def upthr_click():
+    global uc
+    global mfive
+    if mfive >= 1 :
+        uc += 1
+        mfive -= 1
+
 upone.on_click = upone_click
+uptwo.on_click = uptwo_click
+upthr.on_click = upthr_click
 
 def update():                      
     global mone
