@@ -22,7 +22,6 @@ bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.2)
 
 def bone_click():    #bone_click이라는 변수 제작 이 변수를 쓰면 mone값을 +1 하게 만듬
     global mone
-    global ua
     mone += ua
 
 bone.on_click = bone_click   #bone(버튼)을 클릭하면 bone_click 실행
@@ -37,7 +36,6 @@ btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.2)
 def btwo_click():    #btwo_click이라는 변수 제작 이 변수를 쓰면 mtwo값을 +1 하게 만듬
     global mtwo
     global mone
-    global ub
     if mone >= 9 :
         mone -= 9
         mtwo += ub
@@ -61,7 +59,7 @@ def bthr_click():    #bthr_click이라는 변수 제작 이 변수를 쓰면 mth
     global mtwo
     if mtwo >= 8 :
         mtwo -= 8
-        mthr += 1
+        mthr += uc
         ranthr = (randrange(1, 6))
         if ranthr >= 5 :            
             global ranpthr
@@ -82,7 +80,7 @@ def bfour_click():
     global mthr
     if mthr >= 7 :
         mthr -= 7
-        mfour += 1
+        mfour += ud
         ranfour = (randrange(1, 6))
         if ranfour >= 5 :            
             global ranpfour
@@ -103,7 +101,7 @@ def bfive_click():
     global mfour
     if mfour >= 10 :
         mfour -= 10
-        mfive += 1
+        mfive += ue
         ranfive = (randrange(1, 6))
         if ranfive >= 5 :            
             global ranpfive
@@ -112,11 +110,12 @@ def bfive_click():
 
 bfive.on_click = bfive_click
 
-upone = Button(text='red upgade = 1 green', color=color.red, x=-0.6, y=-0.15, scale=0.05)
-uptwo = Button(text='orange upgade = 1 blue', color=color.orange, x=-0.3, y=-0.15, scale=0.05)
-upthr = Button(text='green upgade = 1 pink', color=color.green, y=-0.15, scale=0.05)
-upfour = Button(text='blue upgade = 5 pink', color=color.blue, x = 0.27, y=-0.15, scale=0.05)
-upfive = Button(text='pink upgade = 20 pink', color=color.pink, x = 0.57, y=-0.15, scale=0.05)
+Text(text=('UPGRADE'), x=-0.655, y=-0.128,)
+upone = Button(text='red upgade = 1 green', color=color.red, x=-0.6, y=-0.2, scale=0.047)
+uptwo = Button(text='orange upgade = 1 blue', color=color.orange, x=-0.6, y=-0.26, scale=0.047 )
+upthr = Button(text='green upgade = 1 pink', color=color.green, x=-0.6, y=-0.32, scale=0.047)
+upfour = Button(text='blue upgade = 5 pink', color=color.blue, x=-0.6, y=-0.38, scale=0.047)
+upfive = Button(text='pink upgade = 20 pink', color=color.pink, x=-0.6, y=-0.44, scale=0.047)
 
 def upone_click():    
     global ua
@@ -139,9 +138,25 @@ def upthr_click():
         uc += 1
         mfive -= 1
 
+def upfour_click():
+    global ud
+    global mfive
+    if mfive >= 5 :
+        ud += 1
+        mfive -= 5
+
+def upfive_click():
+    global ue
+    global mfive
+    if mfive >= 20 :
+        ue += 1
+        mfive -= 20
+
 upone.on_click = upone_click
 uptwo.on_click = uptwo_click
 upthr.on_click = upthr_click
+upfour.on_click = upfour_click
+upfive.on_click = upfive_click
 
 def update():                      
     global mone
@@ -164,4 +179,4 @@ def update():
     ranpfive_text.text = str(ranpfive)
 
 
-app.run()# Hyperplayer
+app.run()
