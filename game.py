@@ -18,7 +18,7 @@ ue = 1
 
 mone = 0  #mone을 0값으로 설정
 mone_text = Text(text=str(mone), x=-0.62, y=0.3, scale=2, background=True) 
-bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.2)
+bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.19)
 
 def bone_click():    #bone_click이라는 변수 제작 이 변수를 쓰면 mone값을 +1 하게 만듬
     global mone
@@ -31,7 +31,7 @@ ranptwo = 0
 mtwo_text = Text(text=str(mtwo), x=-0.33, y=0.3, scale=2, background=True)
 ranptwo_text = Text(text=str(ranptwo), x=-0.31, y=0.37, scale=1.2, background=True)
 Text(text='+', x=-0.33, y= 0.37, scale=1, background=True)
-btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.2)
+btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.19)
 
 def btwo_click():    #btwo_click이라는 변수 제작 이 변수를 쓰면 mtwo값을 +1 하게 만듬
     global mtwo
@@ -52,7 +52,7 @@ ranpthr = 0
 mthr_text = Text(text=str(mthr), x=-0.02, y=0.3, scale=2, background=True)
 ranpthr_text = Text(text=str(ranpthr), x=0, y=0.37, scale=1.2, background=True)
 Text(text='+', x=-0.02, y= 0.37, scale=1, background=True)
-bthr = Button(text='8 orange = green', color=color.green, x=0, scale=0.2)
+bthr = Button(text='8 orange = green', color=color.green, x=0, scale=0.19)
 
 def bthr_click():    #bthr_click이라는 변수 제작 이 변수를 쓰면 mthr값을 +1 하게 만듬
     global mthr
@@ -73,7 +73,7 @@ ranpfour = 0
 mfour_text = Text(text=str(mfour), x=0.25, y=0.3, scale=2, background=True)
 ranpfour_text = Text(text=str(ranpfour), x=0.27, y=0.37, scale=1.2, background=True)
 Text(text='+', x=0.25, y= 0.37, scale=1, background=True)
-bfour = Button(text='7 green = blue', color=color.blue, x=0.27, scale=0.2)
+bfour = Button(text='7 green = blue', color=color.blue, x=0.27, scale=0.19)
 
 def bfour_click():    
     global mfour
@@ -94,7 +94,7 @@ ranpfive = 0
 mfive_text = Text(text=str(mfive), x=0.55, y=0.3, scale=2, background=True)
 ranpfive_text = Text(text=str(ranpfive), x=0.57, y=0.37, scale=1.2, background=True)
 Text(text='+', x=0.55, y= 0.37, scale=1, background=True)
-bfive = Button(text='10 blue = pink', color=color.pink, x=0.57, scale=0.2)
+bfive = Button(text='10 blue = pink', color=color.pink, x=0.57, scale=0.19)
 
 def bfive_click():    
     global mfive
@@ -110,12 +110,12 @@ def bfive_click():
 
 bfive.on_click = bfive_click
 
-Text(text=('UPGRADE'), x=-0.655, y=-0.128,)
-upone = Button(text='red upgade = 1 green', color=color.red, x=-0.6, y=-0.2, scale=0.047)
-uptwo = Button(text='orange upgade = 1 blue', color=color.orange, x=-0.6, y=-0.26, scale=0.047 )
-upthr = Button(text='green upgade = 1 pink', color=color.green, x=-0.6, y=-0.32, scale=0.047)
-upfour = Button(text='blue upgade = 5 pink', color=color.blue, x=-0.6, y=-0.38, scale=0.047)
-upfive = Button(text='pink upgade = 20 pink', color=color.pink, x=-0.6, y=-0.44, scale=0.047)
+Text(text=('UPGRADE'), x=-0.657, y=-0.11)
+upone = Button(text='red upgade = 1 green', color=color.red, x=-0.6, y=-0.17, scale=0.059)
+uptwo = Button(text='orange upgade = 1 blue', color=color.orange, x=-0.6, y=-0.24, scale=0.059)
+upthr = Button(text='green upgade = 1 pink', color=color.green, x=-0.6, y=-0.31, scale=0.059)
+upfour = Button(text='blue upgade = 5 pink', color=color.blue, x=-0.6, y=-0.38, scale=0.059)
+upfive = Button(text='pink upgade = 20 pink', color=color.pink, x=-0.6, y=-0.45, scale=0.059)
 
 def upone_click():    
     global ua
@@ -157,6 +157,74 @@ uptwo.on_click = uptwo_click
 upthr.on_click = upthr_click
 upfour.on_click = upfour_click
 upfive.on_click = upfive_click
+
+Text(text=('GAMBLING on 10'), x=-0.4, y=-0.11)
+doone = Button(text='red', color=color.red, x=-0.3, y=-0.17, scale=0.059)
+dotwo = Button(text='orange', color=color.orange, x=-0.3, y=-0.24, scale=0.059)
+dothr = Button(text='green', color=color.green, x=-0.3, y=-0.31, scale=0.059)
+dofour = Button(text='blue', color=color.blue, x=-0.3, y=-0.38, scale=0.059)
+dofive = Button(text='pink', color=color.pink, x=-0.3, y=-0.45, scale=0.059)
+
+def doone_click():
+    global mone
+    if mone >= 10 :
+        doa = (randrange(1, 3))
+        if doa == 1 :
+            mone += 10
+            doa -= 1
+        if doa == 2 :
+            mone -= 10
+            doa -= 2
+
+def dotwo_click():
+    global mtwo
+    if mtwo >= 10 :
+        dob = (randrange(1, 3))
+        if dob == 1 :
+            mtwo += 10
+            dob -= 1
+        if dob == 2 :
+            mtwo -= 10
+            dob -= 2
+
+def dothr_click():
+    global mthr
+    if mthr >= 10 :
+        doc = (randrange(1, 3))
+        if doc == 1 :
+            mthr += 10
+            doc -= 1
+        if doc == 2 :
+            mthr -= 10
+            doc -= 2
+
+def dofour_click():
+    global mfour
+    if mfour >= 10 :
+        dod = (randrange(1, 3))
+        if dod == 1 :
+            mfour += 10
+            dod -= 1
+        if dod == 2 :
+            mfour -= 10
+            dod -= 2
+
+def dofive_click():
+    global mfive
+    if mfive >= 10 :
+        doe = (randrange(1, 3))
+        if doe == 1 :
+            mfive += 10
+            doe -= 1
+        if doe == 2 :
+            mfive -= 10
+            doe -= 2
+
+doone.on_click = doone_click
+dotwo.on_click = dotwo_click
+dothr.on_click = dothr_click
+dofour.on_click = dofive_click
+dofive.on_click = dofour_click
 
 def update():                      
     global mone
