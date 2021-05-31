@@ -8,44 +8,42 @@ app = Ursina()
 window.borderless = False  #창이 움직일 수 있도록 만듬
 window.color = color._20   #창 색깔 
 
-Text.default_font = '/System/Library/Fonts/AppleSDGothicNeo.ttc' #글자 폰트 설정 
-
-ua = 1
+ua = 1   #ua,ub,uc,ud,ue 변수의 값을 1로 설정
 ub = 1
 uc = 1
 ud = 1
 ue = 1
 
 mone = 0  #mone을 0값으로 설정
-mone_text = Text(text=str(mone), x=-0.62, y=0.3, scale=2, background=True) 
-bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.19)
+mone_text = Text(text=str(mone), x=-0.62, y=0.3, scale=2, background=True) #mone의 값을 지정된 좌표에 보이기
+bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.19)  #bone이라는 버튼을 생성, 지정된좌표에 빨간색으로 보이기
 
-def bone_click():    #bone_click이라는 변수 제작 이 변수를 쓰면 mone값을 +1 하게 만듬
+def bone_click():    #bone 버튼을 클릭한다면 ua만큼 mone값을 올리기
     global mone
-    mone += ua
+    mone += ua       
 
-bone.on_click = bone_click   #bone(버튼)을 클릭하면 bone_click 실행
+bone.on_click = bone_click
 
-mtwo = 0  #mtwo을 0값으로 설정
-ranptwo = 0
-mtwo_text = Text(text=str(mtwo), x=-0.33, y=0.3, scale=2, background=True)
-ranptwo_text = Text(text=str(ranptwo), x=-0.31, y=0.37, scale=1.2, background=True)
-Text(text='+', x=-0.33, y= 0.37, scale=1, background=True)
-btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.19)
+mtwo = 0  #mtwo의 값을 0으로 설정
+ranptwo = 0  #ranptwo의 값을 0으로 설정
+mtwo_text = Text(text=str(mtwo), x=-0.33, y=0.3, scale=2, background=True) #mtwo의 값을 지정된 좌표에 보이기
+ranptwo_text = Text(text=str(ranptwo), x=-0.31, y=0.37, scale=1.2, background=True) #ranptwo의 값을 지정된 좌표에 보이기
+Text(text='+', x=-0.33, y= 0.37, scale=1, background=True)  #'+'를 지정된 좌표에 보이기
+btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.19)  #btwo이라는 버튼을 생성, 지정된좌표에 주황색으로 보이기
 
-def btwo_click():    #btwo_click이라는 변수 제작 이 변수를 쓰면 mtwo값을 +1 하게 만듬
+def btwo_click():    #btwo 버튼을 클릭한다면 ub만큼 mtwo값을 올리기
     global mtwo
     global mone
     if mone >= 9 :
         mone -= 9
         mtwo += ub
         rantwo = (randrange(1, 6))
-        if rantwo >= 5 :             #20%확률로 mtwo값이 1증가한다(+옆값)
+        if rantwo >= 5 :             #20%확률로 mtwo값이 1증가한다(+값)
             global ranptwo
             mtwo += 1
             ranptwo += 1
         
-btwo.on_click = btwo_click   #btwo(두번째 버튼)을 클릭하면 btwo_click 실행
+btwo.on_click = btwo_click   
 
 mthr = 0   #mthr을 0값으로 설정
 ranpthr = 0
@@ -54,7 +52,7 @@ ranpthr_text = Text(text=str(ranpthr), x=0, y=0.37, scale=1.2, background=True)
 Text(text='+', x=-0.02, y= 0.37, scale=1, background=True)
 bthr = Button(text='8 orange = green', color=color.green, x=0, scale=0.19)
 
-def bthr_click():    #bthr_click이라는 변수 제작 이 변수를 쓰면 mthr값을 +1 하게 만듬
+def bthr_click():    
     global mthr
     global mtwo
     if mtwo >= 8 :
@@ -245,6 +243,5 @@ def update():
     mfive_text.text = str(mfive)
     global ranpfive
     ranpfive_text.text = str(ranpfive)
-
 
 app.run()
