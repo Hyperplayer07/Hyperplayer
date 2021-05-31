@@ -224,6 +224,21 @@ dothr.on_click = dothr_click
 dofour.on_click = dofive_click
 dofive.on_click = dofour_click
 
+Text(text=('SECRET FOUND'), x=-0.091, y=-0.11)
+creata = 0
+creatb = 0
+creatc = 0
+creatd = 0
+create = 0
+creatone = Button(text='red +'+str(creata),color=color.red, x=0.18, y=-0.2, scale=0.11)
+creattwo = Button(text='orange +'+str(creatb),color=color.orange, x=0.33, y=-0.2, scale=0.11)
+creatthr = Button(text='green +'+str(creatc),color=color.green, x=0.48, y=-0.2, scale=0.11)
+creatfour = Button(text='blue +'+str(creatd),color=color.blue, x=0.255, y=-0.335, scale=0.11)
+creatfive = Button(text='pink +'+str(create),color=color.pink, x=0.405, y=-0.335, scale=0.11)
+createqual = Button(text='=',color=color.black, x=0.6, y=-0.2725, scale=0.08)
+Text(text=('SECRET'), x=0.7, y=-0.26)
+
+
 def update():                      
     global mone
     mone_text.text = str(mone)
