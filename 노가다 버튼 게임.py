@@ -1,371 +1,145 @@
-from ursina import *  # 창 프로그램 플러그인 포함 
-from random import *
-
-from ursina.mesh_importer import ursina_mesh_to_obj  # 랜덤 프로그램 플러그인 포함
+from ursina import *
+from random import randrange
 
 app = Ursina()
+window.borderless = False
+window.color = color._20
 
-window.borderless = False  #창이 움직일 수 있도록 만듬
-window.color = color._20   #창 색깔 
+# 자원과 업그레이드 수치
+mone = mtwo = mthr = mfour = mfive = 0
+ranptwo = ranpthr = ranpfour = ranpfive = 0
+ua = ub = uc = ud = ue = 1  # 자동 수집 용도 (현재 전환에는 미사용)
 
-ua = 1   #ua,ub,uc,ud,ue 변수의 값을 1로 설정
-ub = 1
-uc = 1
-ud = 1
-ue = 1
+# 시크릿 변수
+creata = creatb = creatc = creatd = create = 0
+ca = cb = cc = 0
 
-mone = 0  #mone을 0값으로 설정
-mone_text = Text(text=str(mone), x=-0.62, y=0.3, scale=2, background=True) #mone의 값을 지정된 좌표에 보이기
-bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.19)  #bone이라는 버튼을 생성, 지정된좌표에 빨간색으로 보이기
+# 텍스트 객체 관리용 딕셔너리
+texts = {}
 
-def bone_click():    #bone 버튼을 클릭한다면 ua만큼 mone값을 올리기
-    global mone
-    mone += ua       
+def make_text(name, value, x, y, scale=2):
+    texts[name] = Text(text=str(value), x=x, y=y, scale=scale, background=True)
 
-bone.on_click = bone_click
+make_text("mone", mone, -0.62, 0.3)
+make_text("mtwo", mtwo, -0.33, 0.3)
+make_text("ranptwo", ranptwo, -0.31, 0.37, 1.2)
+make_text("mthr", mthr, -0.02, 0.3)
+make_text("ranpthr", ranpthr, 0, 0.37, 1.2)
+make_text("mfour", mfour, 0.25, 0.3)
+make_text("ranpfour", ranpfour, 0.27, 0.37, 1.2)
+make_text("mfive", mfive, 0.55, 0.3)
+make_text("ranpfive", ranpfive, 0.57, 0.37, 1.2)
 
-mtwo = 0  #mtwo의 값을 0으로 설정
-ranptwo = 0  #ranptwo의 값을 0으로 설정
-mtwo_text = Text(text=str(mtwo), x=-0.33, y=0.3, scale=2, background=True) #mtwo의 값을 지정된 좌표에 보이기
-ranptwo_text = Text(text=str(ranptwo), x=-0.31, y=0.37, scale=1.2, background=True) #ranptwo의 값을 지정된 좌표에 보이기
-Text(text='+', x=-0.33, y= 0.37, scale=1, background=True)  #'+'를 지정된 좌표에 보이기
-btwo = Button(text='9 red = orange', color=color.orange, x=-0.3, scale=0.19)  #btwo이라는 버튼을 생성, 지정된좌표에 주황색으로 보이기
+for x, y in [(-0.33, 0.37), (-0.02, 0.37), (0.25, 0.37), (0.55, 0.37)]:
+    Text(text='+', x=x, y=y, scale=1, background=True)
 
-def btwo_click():    #btwo 버튼을 클릭한다면 ub만큼 mtwo값을 올리기
-    global mtwo
-    global mone
-    if mone >= 9 :
-        mone -= 9
-        mtwo += ub
-        rantwo = (randrange(1, 6))
-        if rantwo >= 5 :             #20%확률로 mtwo값이 1증가한다(+값)
-            global ranptwo
-            mtwo += 1
-            ranptwo += 1
-        
-btwo.on_click = btwo_click   
+# 버튼 함수
+bone = Button(text='red +1', color=color.red, x=-0.6, scale=0.19,
+              on_click=lambda: globals().__setitem__('mone', mone + 1))
 
-mthr = 0   #mthr을 0값으로 설정
-ranpthr = 0
-mthr_text = Text(text=str(mthr), x=-0.02, y=0.3, scale=2, background=True)
-ranpthr_text = Text(text=str(ranpthr), x=0, y=0.37, scale=1.2, background=True)
-Text(text='+', x=-0.02, y= 0.37, scale=1, background=True)
-bthr = Button(text='8 orange = green', color=color.green, x=0, scale=0.19)
+def convert_button(label, color, x, cost_var, cost_amt, gain_var, rand_var):
+    def on_click():
+        if globals()[cost_var] >= cost_amt:
+            globals()[cost_var] -= cost_amt
+            globals()[gain_var] += 1
+            if randrange(1, 6) >= 5:
+                globals()[gain_var] += 1
+                globals()[rand_var] += 1
+    return Button(text=label, color=color, x=x, scale=0.19, on_click=on_click)
 
-def bthr_click():    
-    global mthr
-    global mtwo
-    if mtwo >= 8 :
-        mtwo -= 8
-        mthr += uc
-        ranthr = (randrange(1, 6))
-        if ranthr >= 5 :            
-            global ranpthr
-            mthr += 1
-            ranpthr += 1
+btwo = convert_button('9 red = orange', color.orange, -0.3, 'mone', 9, 'mtwo', 'ranptwo')
+bthr = convert_button('8 orange = green', color.green, 0, 'mtwo', 8, 'mthr', 'ranpthr')
+bfour = convert_button('7 green = blue', color.blue, 0.27, 'mthr', 7, 'mfour', 'ranpfour')
+bfive = convert_button('10 blue = pink', color.pink, 0.57, 'mfour', 10, 'mfive', 'ranpfive')
 
-bthr.on_click = bthr_click   
+# 업그레이드 버튼
+Text(text='UPGRADE', x=-0.657, y=-0.11)
+def upgrade_button(text_prefix, color, x, y, cost_var, cost_amt, upgrade_var):
+    def on_click():
+        if globals()[cost_var] >= cost_amt:
+            globals()[upgrade_var] += 1
+            globals()[cost_var] -= cost_amt
+    return Button(text='', color=color, x=x, y=y, scale=0.059, on_click=on_click)
 
-mfour = 0   
-ranpfour = 0
-mfour_text = Text(text=str(mfour), x=0.25, y=0.3, scale=2, background=True)
-ranpfour_text = Text(text=str(ranpfour), x=0.27, y=0.37, scale=1.2, background=True)
-Text(text='+', x=0.25, y= 0.37, scale=1, background=True)
-bfour = Button(text='7 green = blue', color=color.blue, x=0.27, scale=0.19)
+upone = upgrade_button('red upgrade', color.red, -0.6, -0.17, 'mthr', 1, 'ua')
+uptwo = upgrade_button('orange upgrade', color.orange, -0.6, -0.24, 'mfour', 1, 'ub')
+upthr = upgrade_button('green upgrade', color.green, -0.6, -0.31, 'mfive', 1, 'uc')
+upfour = upgrade_button('blue upgrade', color.blue, -0.6, -0.38, 'mfive', 5, 'ud')
+upfive = upgrade_button('pink upgrade', color.pink, -0.6, -0.45, 'mfive', 20, 'ue')
 
-def bfour_click():    
-    global mfour
-    global mthr
-    if mthr >= 7 :
-        mthr -= 7
-        mfour += ud
-        ranfour = (randrange(1, 6))
-        if ranfour >= 5 :            
-            global ranpfour
-            mfour += 1
-            ranpfour += 1
+# 도박 버튼
+Text(text='GAMBLING on 10', x=-0.4, y=-0.11)
+def gamble_button(label, color, x, y, var):
+    def on_click():
+        if globals()[var] >= 10:
+            if randrange(1, 3) == 1:
+                globals()[var] += 10
+            else:
+                globals()[var] -= 10
+    return Button(text=label, color=color, x=x, y=y, scale=0.059, on_click=on_click)
 
-bfour.on_click = bfour_click 
+doone = gamble_button('red', color.red, -0.3, -0.17, 'mone')
+dotwo = gamble_button('orange', color.orange, -0.3, -0.24, 'mtwo')
+dothr = gamble_button('green', color.green, -0.3, -0.31, 'mthr')
+dofour = gamble_button('blue', color.blue, -0.3, -0.38, 'mfour')
+dofive = gamble_button('pink', color.pink, -0.3, -0.45, 'mfive')
 
-mfive = 0   
-ranpfive = 0
-mfive_text = Text(text=str(mfive), x=0.55, y=0.3, scale=2, background=True)
-ranpfive_text = Text(text=str(ranpfive), x=0.57, y=0.37, scale=1.2, background=True)
-Text(text='+', x=0.55, y= 0.37, scale=1, background=True)
-bfive = Button(text='10 blue = pink', color=color.pink, x=0.57, scale=0.19)
+# 시크릿 섹션
+Text(text='SECRET FOUND', x=-0.091, y=-0.11)
+def secret_add_button(name, color, x, y, var, cost_var):
+    def on_click():
+        if globals()[cost_var] >= 1:
+            globals()[cost_var] -= 1
+            globals()[var] += 1
+    return Button(text=f'{name} +0', color=color, x=x, y=y, scale=0.11, on_click=on_click)
 
-def bfive_click():    
-    global mfive
-    global mfour
-    if mfour >= 10 :
-        mfour -= 10
-        mfive += ue
-        ranfive = (randrange(1, 6))
-        if ranfive >= 5 :            
-            global ranpfive
-            mfive += 1
-            ranpfive += 1
-
-bfive.on_click = bfive_click
-
-Text(text=('UPGRADE'), x=-0.657, y=-0.11)
-upone = Button(text='red upgade = 1 green', color=color.red, x=-0.6, y=-0.17, scale=0.059)
-uptwo = Button(text='orange upgade = 1 blue', color=color.orange, x=-0.6, y=-0.24, scale=0.059)
-upthr = Button(text='green upgade = 1 pink', color=color.green, x=-0.6, y=-0.31, scale=0.059)
-upfour = Button(text='blue upgade = 5 pink', color=color.blue, x=-0.6, y=-0.38, scale=0.059)
-upfive = Button(text='pink upgade = 20 pink', color=color.pink, x=-0.6, y=-0.45, scale=0.059)
-
-def upone_click():    
-    global ua
-    global mthr
-    if mthr >= 1 :
-        ua += 1
-        mthr -= 1 
-
-def uptwo_click():
-    global ub
-    global mfour 
-    if mfour >= 1 :
-        ub += 1
-        mfour -= 1
-
-def upthr_click():
-    global uc
-    global mfive
-    if mfive >= 1 :
-        uc += 1
-        mfive -= 1
-
-def upfour_click():
-    global ud
-    global mfive
-    if mfive >= 5 :
-        ud += 1
-        mfive -= 5
-
-def upfive_click():
-    global ue
-    global mfive
-    if mfive >= 20 :
-        ue += 1
-        mfive -= 20
-
-upone.on_click = upone_click
-uptwo.on_click = uptwo_click
-upthr.on_click = upthr_click
-upfour.on_click = upfour_click
-upfive.on_click = upfive_click
-
-Text(text=('GAMBLING on 10'), x=-0.4, y=-0.11)
-doone = Button(text='red', color=color.red, x=-0.3, y=-0.17, scale=0.059)
-dotwo = Button(text='orange', color=color.orange, x=-0.3, y=-0.24, scale=0.059)
-dothr = Button(text='green', color=color.green, x=-0.3, y=-0.31, scale=0.059)
-dofour = Button(text='blue', color=color.blue, x=-0.3, y=-0.38, scale=0.059)
-dofive = Button(text='pink', color=color.pink, x=-0.3, y=-0.45, scale=0.059)
-
-def doone_click():
-    global mone
-    if mone >= 10 :
-        doa = (randrange(1, 3))
-        if doa == 1 :
-            mone += 10
-            doa -= 1
-        if doa == 2 :
-            mone -= 10
-            doa -= 2
-
-def dotwo_click():
-    global mtwo
-    if mtwo >= 10 :
-        dob = (randrange(1, 3))
-        if dob == 1 :
-            mtwo += 10
-            dob -= 1
-        if dob == 2 :
-            mtwo -= 10
-            dob -= 2
-
-def dothr_click():
-    global mthr
-    if mthr >= 10 :
-        doc = (randrange(1, 3))
-        if doc == 1 :
-            mthr += 10
-            doc -= 1
-        if doc == 2 :
-            mthr -= 10
-            doc -= 2
-
-def dofour_click():
-    global mfour
-    if mfour >= 10 :
-        dod = (randrange(1, 3))
-        if dod == 1 :
-            mfour += 10
-            dod -= 1
-        if dod == 2 :
-            mfour -= 10
-            dod -= 2
-
-def dofive_click():
-    global mfive
-    if mfive >= 10 :
-        doe = (randrange(1, 3))
-        if doe == 1 :
-            mfive += 10
-            doe -= 1
-        if doe == 2 :
-            mfive -= 10
-            doe -= 2
-
-doone.on_click = doone_click
-dotwo.on_click = dotwo_click
-dothr.on_click = dothr_click
-dofour.on_click = dofive_click
-dofive.on_click = dofour_click
-
-Text(text=('SECRET FOUND'), x=-0.091, y=-0.11)
-creata = 0
-creatb = 0
-creatc = 0
-creatd = 0
-create = 0
-ca = 0
-cb = 0
-cc = 0
-creatone = Button(text='red +'+str(creata),color=color.red, x=0.18, y=-0.2, scale=0.11)
-creattwo = Button(text='orange +'+str(creatb),color=color.orange, x=0.33, y=-0.2, scale=0.11)
-creatthr = Button(text='green +'+str(creatc),color=color.green, x=0.48, y=-0.2, scale=0.11)
-creatfour = Button(text='blue +'+str(creatd),color=color.blue, x=0.255, y=-0.335, scale=0.11)
-creatfive = Button(text='pink +'+str(create),color=color.pink, x=0.405, y=-0.335, scale=0.11)
-createqual = Button(text='=',color=color.black, x=0.6, y=-0.2725, scale=0.08)
-Text(text=('SECRET'), x=0.7, y=-0.26)
-creatreset = Button(text='reset',color=color.black50, x=0.745, y=-0.4, scale=0.11)
-
-def creatone_click():
-    global creata
-    global mone
-    if mone >= 1 :
-        mone -= 1
-        creata += 1
-
-def creattwo_click():
-    global creatb
-    global mtwo
-    if mtwo >= 1 :
-        mtwo -= 1
-        creatb += 1
-
-def creatthr_click():
-    global creatc
-    global mthr
-    if mthr >= 1 :
-        mthr -= 1
-        creatc += 1
-
-def creatfour_click():
-    global creatd
-    global mfour
-    if mfour >= 1 :
-        mfour -= 1
-        creatd += 1
-
-def creatfive_click():
-    global create
-    global mfive
-    if mfive >= 1 :
-        mfive -= 1
-        create += 1
-
-def createqual_click():
-    global ue
-    global ca
-    global cb
-    global cc
-    if creata == 1 :
-        if creatb == 3 :
-            if creatc == 2 :
-                if creatd == 5 :
-                    if create == 4 :
-                        ue += 3  
-                        Text(text=('SECRET 1'), x=-0.05, y=-0.15)
-                        creatreset_click()
-                        ca += 1
-    global ud
-    if creata == 2 :
-        if creatb == 7 :
-            if creatc == 9 :
-                if creatd == 1 :
-                    if create == 2:
-                        ud += 3
-                        Text(text=('SECRET 2'), x=-0.05, y=-0.2)
-                        creatreset_click()
-                        cb += 1
-    global uc
-    if creata == 1 :
-        if creatb == 2 :
-            if creatc == 3 :
-                if creatd == 2 :
-                    if create == 1 :
-                        uc += 3
-                        Text(text=('SECRET 3'), x=-0.05, y=-0.25)
-                        creatreset_click()
-                        cc += 1
-
-    if ca >= 1 :
-        if cb >= 1 : 
-            if cc >= 1 :
-                Button(text='You win!', color=color.black, x=0, y=0.3, scale=5)
-                
+creatone = secret_add_button('red', color.red, -0.02, -0.2, 'creata', 'mone')
+creattwo = secret_add_button('orange', color.orange, 0.13, -0.2, 'creatb', 'mtwo')
+creatthr = secret_add_button('green', color.green, 0.28, -0.2, 'creatc', 'mthr')
+creatfour = secret_add_button('blue', color.blue, 0.03, -0.335, 'creatd', 'mfour')
+creatfive = secret_add_button('pink', color.pink, 0.18, -0.335, 'create', 'mfive')
+createqual = Button(text='=', color=color.black, x=0.375, y=-0.2725, scale=0.08)
+Text(text='SECRET', x=0.475, y=-0.26)
+creatreset = Button(text='reset', color=color.black50, x=0.52, y=-0.4, scale=0.11)
 
 def creatreset_click():
-    global creata
-    global creatb
-    global creatc
-    global creatd
-    global create
-    creata -= (creata)
-    creatb -= (creatb)
-    creatc -= (creatc)
-    creatd -= (creatd)
-    create -= (create)
-
-creatone.on_click = creatone_click
-creattwo.on_click = creattwo_click
-creatthr.on_click = creatthr_click
-creatfour.on_click = creatfive_click
-creatfive.on_click = creatfour_click
+    global creata, creatb, creatc, creatd, create
+    creata = creatb = creatc = creatd = create = 0
 creatreset.on_click = creatreset_click
+
+def createqual_click():
+    global ca, cb, cc, uc, ud, ue
+    combos = [
+        ((1, 3, 2, 5, 4), 'ue', 3, 'SECRET 1', 'ca'),
+        ((2, 7, 9, 1, 2), 'ud', 3, 'SECRET 2', 'cb'),
+        ((1, 2, 3, 2, 1), 'uc', 3, 'SECRET 3', 'cc')
+    ]
+    for cond, target, amt, msg, count_var in combos:
+        if (creata, creatb, creatc, creatd, create) == cond:
+            globals()[target] += amt
+            Text(text=msg, x=-0.05, y=-0.15)
+            creatreset_click()
+            globals()[count_var] += 1
+
+    if ca >= 1 and cb >= 1 and cc >= 1:
+        Button(text='You win!', color=color.black, x=0, y=0.3, scale=5)
 createqual.on_click = createqual_click
 
-def update():                      
-    global mone
-    mone_text.text = str(mone)
-    global mtwo
-    mtwo_text.text = str(mtwo)
-    global ranptwo
-    ranptwo_text.text = str(ranptwo)
-    global mthr
-    mthr_text.text = str(mthr)
-    global ranpthr
-    ranpthr_text.text = str(ranpthr)
-    global mfour
-    mfour_text.text = str(mfour)
-    global ranpfour
-    ranpfour_text.text = str(ranpfour)
-    global mfive
-    mfive_text.text = str(mfive)
-    global ranpfive
-    ranpfive_text.text = str(ranpfive)
-    global creatone
-    creatone.text = 'red +'+str(creata)
-    global creattwo
-    creattwo.text = 'orange +'+str(creatb)
-    global creatthr
-    creatthr.text = 'green +'+str(creatc)
-    global creatfour
-    creatfour.text = 'blue +'+str(creatd)
-    global creatfive
-    creatfive.text = 'pink +'+str(create)
+# 실시간 텍스트 갱신
+def update():
+    for key in texts:
+        texts[key].text = str(globals()[key])
+
+    creatone.text = f'red +{creata}'
+    creattwo.text = f'orange +{creatb}'
+    creatthr.text = f'green +{creatc}'
+    creatfour.text = f'blue +{creatd}'
+    creatfive.text = f'pink +{create}'
+
+    upone.text = f'red upgrade = +{ua}'
+    uptwo.text = f'orange upgrade = +{ub}'
+    upthr.text = f'green upgrade = +{uc}'
+    upfour.text = f'blue upgrade = +{ud}'
+    upfive.text = f'pink upgrade = +{ue}'
 
 app.run()
